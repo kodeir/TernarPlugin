@@ -1,0 +1,33 @@
+<idea-plugin version="2">
+  <id>com.kodeir.plugin.ternary</id>
+  <name>Ternary operator plugin</name>
+  <version>1.0</version>
+  <vendor email="kodeir@gmail.com" url="https://github.com/kodeir">Kodeir</vendor>
+
+  <description><![CDATA[
+      Ternary operator by a shortcut<br>
+    ]]></description>
+
+  <change-notes><![CDATA[
+      2017-03-12<br>
+    ]]>
+  </change-notes>
+
+  <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/build_number_ranges.html for description -->
+  <idea-version since-build="163"/>
+
+  <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
+       on how to target different products -->
+  <!-- uncomment to enable plugin in all products
+  <depends>com.intellij.modules.lang</depends>
+  -->
+
+  <extensions defaultExtensionNs="com.intellij">
+    <!-- Add your extensions here -->
+  </extensions>
+
+  <actions>
+    <!-- Add your actions here -->
+  </actions>
+
+</idea-plugin>
