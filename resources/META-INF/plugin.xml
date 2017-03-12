@@ -28,6 +28,13 @@
 
   <actions>
     <!-- Add your actions here -->
+    <action id="TernarPlugin.CreateTernary"
+            class="com.kodeir.plugin.ternary.TernaryCreator"
+            text="Create_Ternary"
+            description="Create Ternary Operator">
+      <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+      <keyboard-shortcut keymap="$default" first-keystroke="shift meta T"/>
+    </action>
   </actions>
 
 </idea-plugin>
