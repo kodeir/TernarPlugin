@@ -1,5 +1,6 @@
 package com.kodeir.plugin.ternary;
 
+import com.intellij.codeInsight.daemon.impl.quickfix.CreateMethodQuickFix;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.CommonDataKeys;
@@ -9,6 +10,10 @@ import com.intellij.openapi.editor.CaretModel;
 import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.project.Project;
+import com.intellij.psi.PsiClass;
+import com.intellij.psi.PsiElement;
+import com.intellij.psi.util.PsiTreeUtil;
+import com.intellij.psi.util.PsiUtilBase;
 
 /**
  * Created by Sergei "Kodeir" Riabinin on 12/03/17.
@@ -17,6 +22,7 @@ import com.intellij.openapi.project.Project;
 public class TernaryCreator extends AnAction {
 
     private Project project;
+    private Editor editor;
     private Document document;
     private CaretModel caretModel;
 
@@ -24,6 +30,12 @@ public class TernaryCreator extends AnAction {
     public void actionPerformed(AnActionEvent actionEvent) {
         getProjectData(actionEvent);
         WriteCommandAction.runWriteCommandAction(project, run());
+
+        final PsiElement element =
+                PsiUtilBase.getPsiFileInEditor(editor, project).findElementAt(caretModel.getOffset());
+        PsiClass psiClass = PsiTreeUtil.getParentOfType(element, PsiClass.class);
+
+        CreateMethodQuickFix.createFix(psiClass, "sig", "bod");
     }
 
     /**
@@ -33,7 +45,7 @@ public class TernaryCreator extends AnAction {
     private void getProjectData(AnActionEvent actionEvent){
         //PlatformDataKeys or CommonDataKeys ?? TBD
         project = actionEvent.getData(PlatformDataKeys.PROJECT);
-        Editor editor = actionEvent.getRequiredData(CommonDataKeys.EDITOR);
+         editor = actionEvent.getRequiredData(CommonDataKeys.EDITOR);
         document = editor.getDocument();
         caretModel = editor.getCaretModel();
     }
