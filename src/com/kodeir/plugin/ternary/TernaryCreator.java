@@ -27,22 +27,27 @@ public class TernaryCreator extends AnAction {
     }
 
     /**
-     * get project & editor
+     * get project & editor, get document & caretModel from editor
      * @param actionEvent AnActionEvent
      */
     private void getProjectData(AnActionEvent actionEvent){
+        //PlatformDataKeys or CommonDataKeys ?? TBD
         project = actionEvent.getData(PlatformDataKeys.PROJECT);
         Editor editor = actionEvent.getRequiredData(CommonDataKeys.EDITOR);
-
         document = editor.getDocument();
         caretModel = editor.getCaretModel();
     }
 
+    /**
+     * create new runnable instance to make changes in current editor
+     * @return Runnable
+     */
     private Runnable run(){
         return () -> {
+            //get the end of the current line
             int txtLineEnd = caretModel.getOffset();
-            String newText = createTernaryText();
-            document.insertString(txtLineEnd, newText);
+            //insert ternary to the end of the line
+            document.insertString(txtLineEnd, createTernaryText());
         };
     }
 
