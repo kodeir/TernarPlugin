@@ -23,4 +23,11 @@ public class TernaryCreatorTest extends LightCodeInsightFixtureTestCase{
         myFixture.performEditorAction("TernarPlugin.CreateTernary");
         myFixture.checkResultByFile("ternarySignature.txt");
     }
+
+    public void testInsertionToClass(){
+        myFixture.configureByFile("TestClass.java");
+        myFixture.complete(CompletionType.BASIC, 1);
+        myFixture.performEditorAction("TernarPlugin.CreateTernary");
+        myFixture.checkResultByFile("TestClassExpected.java");
+    }
 }

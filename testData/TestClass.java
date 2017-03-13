@@ -6,7 +6,7 @@ public class TestClass{
 
     pubic void testMethod(){
 
-
+        <caret>
 
     }
 
