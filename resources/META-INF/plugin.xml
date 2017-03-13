@@ -1,15 +1,22 @@
 <idea-plugin version="2">
   <id>com.kodeir.plugin.ternary</id>
   <name>Ternary operator plugin</name>
-  <version>1.0</version>
+  <version>0.1</version>
   <vendor email="kodeir@gmail.com" url="https://github.com/kodeir">Kodeir</vendor>
 
   <description><![CDATA[
-      Ternary operator by a shortcut<br>
+      Editor popup menu is expanded with "Create Ternary" action:<br>
+      - adds "checkCondition() ? doIfTrue() : doIfFalse();" to current cursor in editor<br>
+      - can be triggered by ctrl+shift+T<br>
     ]]></description>
 
   <change-notes><![CDATA[
-      2017-03-12<br>
+      2017-03-12: 1.0 initial project<br>
+      2017-03-13: 0.1<br>
+      <ul>
+        <li>version downgrade as some functional is to be added (fixed)</li>
+        <li>tests are added</li>
+      </ul>
     ]]>
   </change-notes>
 
@@ -27,7 +34,6 @@
   </extensions>
 
   <actions>
-    <!-- Add your actions here -->
     <action id="TernarPlugin.CreateTernary"
             class="com.kodeir.plugin.ternary.TernaryCreator"
             text="Create_Ternary"
