@@ -1,7 +1,6 @@
 package com.kodeir.plugin.ternary;
 
 import com.intellij.codeInsight.completion.CompletionType;
-import com.intellij.testFramework.fixtures.CodeInsightTestFixture;
 import com.intellij.testFramework.fixtures.LightCodeInsightFixtureTestCase;
 
 /**
@@ -18,9 +17,10 @@ public class TernaryCreatorTest extends LightCodeInsightFixtureTestCase{
         return "testData/";
     }
 
-    public void testCompletion(){
-        myFixture.configureByFile("TestClass.java");
+    public void testInsertionToBlank(){
+        myFixture.configureByFile("EmptyClass.java");
         myFixture.complete(CompletionType.BASIC, 1);
         myFixture.performEditorAction("TernarPlugin.CreateTernary");
+        myFixture.checkResultByFile("ternarySignature.txt");
     }
 }
