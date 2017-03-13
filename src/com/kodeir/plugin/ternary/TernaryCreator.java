@@ -36,7 +36,7 @@ public class TernaryCreator extends AnAction {
         WriteCommandAction.runWriteCommandAction(project, run());
 
         //create methods
-        createMethods();
+        //createMethods();
     }
 
     private void createMethods() {
