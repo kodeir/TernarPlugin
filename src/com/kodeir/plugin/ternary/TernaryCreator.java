@@ -12,6 +12,7 @@ import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiClass;
 import com.intellij.psi.PsiElement;
+import com.intellij.psi.PsiFile;
 import com.intellij.psi.util.PsiTreeUtil;
 import com.intellij.psi.util.PsiUtilBase;
 
@@ -28,14 +29,36 @@ public class TernaryCreator extends AnAction {
 
     @Override
     public void actionPerformed(AnActionEvent actionEvent) {
+        //first get data
         getProjectData(actionEvent);
+
+        //write ternary body to current line
         WriteCommandAction.runWriteCommandAction(project, run());
 
-        final PsiElement element =
-                PsiUtilBase.getPsiFileInEditor(editor, project).findElementAt(caretModel.getOffset());
-        PsiClass psiClass = PsiTreeUtil.getParentOfType(element, PsiClass.class);
+        //create methods
+        createMethods();
+    }
 
-        CreateMethodQuickFix.createFix(psiClass, "sig", "bod");
+    private void createMethods() {
+        Runnable runnable = () -> {
+            PsiFile psiFile = PsiUtilBase.getPsiFileInEditor(editor, project);
+            //whitespace is found which is cause error below
+            PsiElement element = psiFile.findElementAt(caretModel.getOffset());
+            PsiClass psiClass = PsiTreeUtil.getParentOfType(element, PsiClass.class);
+            if (psiClass!=null){
+                CreateMethodQuickFix quickFix = CreateMethodQuickFix.createFix(
+                        psiClass,
+                        "private boolean checkCondition()",
+                        "return false");
+                // com.intellij.psi.impl.source.tree.PsiWhiteSpaceImpl cannot be cast to com.intellij.psi.PsiClass
+                quickFix.invoke(project, psiFile, editor,
+                        element,
+                        element);
+                //CreateMethodQuickFix.createFix(psiClass, "private boolean doIfTrue()", "return false");
+                //CreateMethodQuickFix.createFix(psiClass, "private boolean doIfFalse()", "return false");
+            }
+        };
+        WriteCommandAction.runWriteCommandAction(project, runnable);
     }
 
     /**
@@ -45,7 +68,7 @@ public class TernaryCreator extends AnAction {
     private void getProjectData(AnActionEvent actionEvent){
         //PlatformDataKeys or CommonDataKeys ?? TBD
         project = actionEvent.getData(PlatformDataKeys.PROJECT);
-         editor = actionEvent.getRequiredData(CommonDataKeys.EDITOR);
+        editor = actionEvent.getRequiredData(CommonDataKeys.EDITOR);
         document = editor.getDocument();
         caretModel = editor.getCaretModel();
     }
